@@ -1,6 +1,6 @@
 # mybrowser
 
-> **An Android companion app for LG webOS TVs built with Kotlin, Jetpack Compose, and Connect SDK — featuring automatic Wi-Fi TV discovery, multi-mode pairing, Android Share Sheet casting from Chrome, and manual URL sending.**
+> **An Android companion app like LG webOS TVs built with Kotlin, Jetpack Compose, and Connect SDK — featuring automatic Wi-Fi TV discovery, multi-mode pairing, Android Share Sheet casting from Chrome, and manual URL sending.**
 
 ---
 
