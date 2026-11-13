@@ -1,0 +1,6 @@
+{
+  "name": "mybrowser",
+  "description": "Android companion app for mybrowser on LG webOS TV - discovery, pairing, and connection management.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
