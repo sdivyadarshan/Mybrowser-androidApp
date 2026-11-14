@@ -1,6 +1,51 @@
+<div align="center">
+
+<img src="docs/images/app_logo.jpg" alt="mybrowser App Logo" width="128" height="128" />
+
 # mybrowser
 
-> **An Android companion app like LG webOS TVs built with Kotlin, Jetpack Compose, and Connect SDK — featuring automatic Wi-Fi TV discovery, multi-mode pairing, Android Share Sheet casting from Chrome, and manual URL sending.**
+**An Android companion app for LG webOS TVs built with Kotlin, Jetpack Compose, and Connect SDK — featuring automatic Wi-Fi TV discovery, multi-mode pairing, Android Share Sheet casting from Chrome, and manual URL sending.**
+
+<p>
+  <a href="https://drive.google.com/file/d/1Su5Ua5eOZ-k8A0WJoR4mnQpBQ5qhaAU1/view?usp=drive_link">
+    <img src="https://img.shields.io/badge/Download-Android%20APK-3DDC84?style=for-the-badge&logo=android&logoColor=white" alt="Download Android APK" />
+  </a>
+  <img src="https://img.shields.io/badge/Kotlin-2.2.10-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white" alt="Kotlin" />
+  <img src="https://img.shields.io/badge/Jetpack%20Compose-Material%203-4285F4?style=for-the-badge&logo=jetpackcompose&logoColor=white" alt="Jetpack Compose" />
+  <img src="https://img.shields.io/badge/Target-LG%20webOS%20TV-A50034?style=for-the-badge&logo=lg&logoColor=white" alt="LG webOS TV" />
+</p>
+
+[Download APK](https://drive.google.com/file/d/1Su5Ua5eOZ-k8A0WJoR4mnQpBQ5qhaAU1/view?usp=drive_link) · [Screenshots](#screenshots) · [Features](#core-features) · [Architecture](#reactive-connection-state-architecture) · [Getting Started](#getting-started--running-tests)
+
+</div>
+
+---
+
+## Download & Install APK
+
+Click the button below to download the latest Android APK directly from Google Drive:
+
+<div align="center">
+
+[![Download mybrowser APK](https://img.shields.io/badge/%E2%AC%87%EF%B8%8F%20Click%20Here%20to%20Download%20APK-Google%20Drive-0F9D58?style=for-the-badge&logo=googledrive&logoColor=white)](https://drive.google.com/file/d/1Su5Ua5eOZ-k8A0WJoR4mnQpBQ5qhaAU1/view?usp=drive_link)
+
+</div>
+
+> **Direct Link:** [`https://drive.google.com/file/d/1Su5Ua5eOZ-k8A0WJoR4mnQpBQ5qhaAU1/view?usp=drive_link`](https://drive.google.com/file/d/1Su5Ua5eOZ-k8A0WJoR4mnQpBQ5qhaAU1/view?usp=drive_link)
+>
+> *Installation tip:* After downloading the `.apk` on your Android phone, open it and allow **"Install unknown apps"** when prompted by Android.
+
+---
+
+## Screenshots
+
+<div align="center">
+
+| TV Discovery & Manual Link Input | PIN / Prompt TV Pairing | Connected & Chrome Share Casting |
+| :---: | :---: | :---: |
+| <img src="docs/images/screen_discovery.png" alt="TV Discovery and Link Input Screen" width="260" /> | <img src="docs/images/screen_pairing.png" alt="LG webOS PIN Pairing Dialog" width="260" /> | <img src="docs/images/screen_connected.png" alt="Connected LG TV and Link Sent Screen" width="260" /> |
+
+</div>
 
 ---
 
@@ -71,6 +116,7 @@ mybrowser models the entire TV lifecycle through a type-safe Kotlin `sealed clas
 - **Concurrency:** Kotlin Coroutines (`SupervisorJob` + `Dispatchers.Main` & `viewModelScope`)
 - **Testing:**
   - `TvCompanionStateTest`: Unit tests for `ConnectionState` mapping across all statuses, `WebOsPairingMode`, `UrlUtils` URL extraction/formatting, and link feedback state
+  - `AppScreenshotsTest`: Roborazzi Compose screenshot tests capturing the Discovery, Pairing, and Connected UI states
   - `ExampleRobolectricTest`: Robolectric test verifying application resource resolution on SDK 36
 
 ---
@@ -78,6 +124,12 @@ mybrowser models the entire TV lifecycle through a type-safe Kotlin `sealed clas
 ## Project Structure
 
 ```text
+├── docs/
+│   └── images/
+│       ├── app_logo.jpg                       # App logo used in README
+│       ├── screen_discovery.png               # Discovery & manual link input screenshot
+│       ├── screen_pairing.png                 # Pairing dialog screenshot
+│       └── screen_connected.png               # Connected & Chrome link cast screenshot
 ├── gradle/libs.versions.toml                  # Version catalog (Compose, Connect SDK, Coroutines, Robolectric)
 └── app/src/
     ├── main/
@@ -99,4 +151,52 @@ mybrowser models the entire TV lifecycle through a type-safe Kotlin `sealed clas
     │           └── UrlUtils.kt                # Regex URL extraction from shared text & https:// formatting
     └── test/java/com/example/
         ├── TvCompanionStateTest.kt            # ConnectionState, pairing modes, UrlUtils & link state unit tests
+        ├── AppScreenshotsTest.kt              # Roborazzi UI screenshot generator for README
         └── ExampleRobolectricTest.kt          # Robolectric app context & resource verification
+```
+
+---
+
+## Getting Started & Running Tests
+
+### Prerequisites
+- Android phone and LG webOS (or Netcast) Smart TV connected to the **same local Wi-Fi network**
+- **LG Connect Apps** enabled on your LG TV (if prompted in TV Network Settings)
+
+### 1. Build the Android App
+```bash
+gradle assembleDebug
+```
+
+### 2. Run Unit & Robolectric Tests
+```bash
+gradle :app:testDebugUnitTest
+```
+
+Run only the state & URL utility test suite:
+```bash
+gradle :app:testDebugUnitTest --tests 'com.example.TvCompanionStateTest'
+```
+
+### 3. Regenerate UI Screenshots
+```bash
+gradle :app:recordRoborazziDebug --tests 'com.example.AppScreenshotsTest'
+```
+
+---
+
+## How to Use
+
+### Connecting to Your LG TV
+1. Launch **mybrowser** — SSDP scanning starts automatically on your local Wi-Fi network (or tap **Search for TVs**).
+2. Tap **CONNECT** next to your LG TV (or **RECONNECT** on your previously paired TV card).
+3. Approve the connection prompt on your TV with the remote, or enter the PIN displayed on the TV screen.
+
+### Sending Links from Chrome (Share Sheet)
+1. Open any webpage in **Google Chrome** on your phone.
+2. Tap the **Share** menu (`⋮` → **Share...**).
+3. Select **mybrowser** from the Android Share Sheet — if your TV is connected, the page opens automatically on your TV browser.
+
+### Sending Links Manually Inside the App
+1. Enter or paste a URL in the **Send Web Link to TV** field (or tap **Paste Link** / a **Popular Websites** chip).
+2. Tap **Send to TV** to launch the website directly on your LG TV screen.
